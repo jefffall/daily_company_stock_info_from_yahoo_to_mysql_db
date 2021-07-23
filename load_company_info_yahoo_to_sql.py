@@ -193,8 +193,10 @@ def initialize_company_info_table():
         version = cur.fetchone()
         print("Database version: {}".format(version[0]))
         
-        cur.execute("DROP TABLE company_info")
-        
+        try:
+            cur.execute("DROP TABLE company_info")
+        except:
+            pass
        
         table_build_command =  build_yahoo_company_info_table("company_info")
         
@@ -269,7 +271,7 @@ def sql_query(query):
                 row_data = row_data + str(item) + ","
             query_results.append(row_data)
 
-    con.close()
+    #con.close()
     return(query_results)
 
 def strip_non_ascii(string):
@@ -496,7 +498,7 @@ def get_company_info_nasdaq_nyse_amex_stocks_unfiltered_csv():
     time.sleep(5)
     #File from rankandfiled.com
 
-    mycsv = open("/home/jfall/nyse_nasd_symbols.csv","r")
+    mycsv = open("./nyse_nasd_symbols.csv","r")
     
     counter = 0
     stock_counter = 0

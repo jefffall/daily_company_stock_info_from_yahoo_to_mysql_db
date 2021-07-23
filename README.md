@@ -1,3 +1,11 @@
+
+as of July 22, 2021 - 
+This program will load some stocks into the db.
+But adjustments are needed as yfinance may have changed a bit and some of the data from yahoo
+has additional columns or less columns.
+
+TBD Need to put in code to fix the variable columns from finance.yahoo.com
+
 daily_company_stock_info_from_yahoo_to_mysql_db
 To use this software you need a few things configured first.
 
