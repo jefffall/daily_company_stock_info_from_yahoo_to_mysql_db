@@ -1,6 +1,4 @@
 #!/usr/bin/python3
-import os
-import requests
 import pymysql
 import yfinance as yf
 import time
@@ -17,15 +15,60 @@ def build_yahoo_company_info_table(name):
     sector VARCHAR(40),\
     quoteDate DATETIME,\
     err FLOAT,\
+    ebitdaMargins FLOAT,\
+    grossMargins FLOAT,\
+    operatingCashflow FLOAT,\
+    operatingMargins FLOAT,\
+    revenueGrowth FLOAT,\
+    ebitda FLOAT,\
+    targetLowPrice FLOAT,\
+    currentPrice FLOAT,\
+    earningsGrowth FLOAT,\
+    recommendationKey VARCHAR(50),\
+    lastDividendDate DATETIME,\
+    grossProfits FLOAT,\
+    freeCashflow FLOAT,\
+    impliedSharesOutstanding BIGINT,\
+    targetMedianPrice FLOAT,\
+    currentRatio FLOAT,\
+    returnOnAssets FLOAT,\
+    numberOfAnalystOpinions INT,\
+    targetMeanPrice FLOAT,\
+    debtToEquity FLOAT,\
+    returnOnEquity FLOAT,\
+    targetHighPrice FLOAT,\
+    financialCurrency VARCHAR(20),\
+    revenuePerShare FLOAT,\
+    quickRatio FLOAT,\
+    recommendationMean FLOAT,\
+    longName VARCHAR(150),\
+    exchangeTimezoneName VARCHAR(20),\
+    quoteType VARCHAR(20),\
+    symbol VARCHAR(10),\
+    regularMarketOpen FLOAT,\
+    twoHundredDayAverage FLOAT,\
+    payoutRatio FLOAT,\
+    volume24Hr BIGINT,\
+    trailingAnnualDividendRate FLOAT,\
+    algorithm VARCHAR(20),\
+    beta FLOAT,\
+    circulatingSupply BIGINT,\
+    lastMarket FLOAT,\
+    maxSupply BIGINT,\
+    volumeAllCurrencies BIGINT,\
+    ytdReturn FLOAT,\
+    askSize BIGINT,\
+    fromCurrency VARCHAR(20),\
+    totalCash BIGINT,\
+    totalDebt BIGINT,\
+    totalRevenue BIGINT,\
+    totalCashPerShare BIGINT,\
     dayHigh FLOAT,\
     trailingPE FLOAT,\
     fundFamily VARCHAR(60),\
     revenueQuarterlyGrowth FLOAT,\
-    quoteType VARCHAR(15),\
-    lastMarket FLOAT,\
     shortPercentOfFloat FLOAT DEFAULT '0.000',\
     sharesPercentSharesOut FLOAT DEFAULT '0.000',\
-    exchangeTimezoneName VARCHAR(20),\
     gmtOffSetMilliseconds INT DEFAULT '0',\
     regularMarketVolume INT DEFAULT '0',\
     averageVolume10days  INT DEFAULT '0',\
@@ -38,7 +81,6 @@ def build_yahoo_company_info_table(name):
     regularMarketDayLow FLOAT,\
     address1 VARCHAR(80) DEFAULT 'None',\
     address2 VARCHAR(80) DEFAULT 'None',\
-    bid FLOAT,\
     lastSplitFactor  VARCHAR(30) DEFAULT 'None',\
     uuid VARCHAR(50),\
     mostRecentQuarter BIGINT DEFAULT '0',\
@@ -48,16 +90,10 @@ def build_yahoo_company_info_table(name):
     yield FLOAT DEFAULT '0.0',\
     priceToSalesTrailing12Months FLOAT DEFAULT '0.0',\
     companyOfficers VARCHAR(50),\
-    volume24Hr BIGINT,\
-    circulatingSupply BIGINT,\
-    payoutRatio FLOAT,\
     lastSplitDate DATETIME,\
-    volumeAllCurrencies BIGINT DEFAULT '0',\
     floatShares BIGINT DEFAULT '0',\
-    longName VARCHAR(120) DEFAULT 'None',\
     heldPercentInstitutions  FLOAT,\
     category VARCHAR(40),\
-    askSize INT,\
     state   VARCHAR(10),\
     exchangeTimezoneShortName VARCHAR(15) DEFAULT 'None',\
     dateShortInterest  DATETIME,\
@@ -89,6 +125,7 @@ def build_yahoo_company_info_table(name):
     exDividendDate DATETIME,\
     totalAssets BIGINT DEFAULT '0',\
     bidSize INT,\
+    bid FLOAT,\
     open FLOAT,\
     market  VARCHAR(20),\
     city VARCHAR(60),\
@@ -106,12 +143,9 @@ def build_yahoo_company_info_table(name):
     strikePrice FLOAT,\
     expireDate DATETIME,\
     averageDailyVolume10Day BIGINT,\
-    twoHundredDayAverage  FLOAT,\
     annualReportExpenseRatio   FLOAT,\
-    maxSupply  VARCHAR(15),\
     enterpriseToRevenue FLOAT,\
     fiftyTwoWeekHigh  FLOAT,\
-    regularMarketOpen FLOAT,\
     shortRatio  FLOAT,\
     the52WeekChange  FLOAT,\
     regularMarketPrice FLOAT,\
@@ -128,22 +162,15 @@ def build_yahoo_company_info_table(name):
     dividendRate  FLOAT,\
     priceToBook FLOAT,\
     fiveYearAvgDividendYield FLOAT,\
-    symbol  VARCHAR(10),\
     headSymbol VARCHAR(10),\
     underlyingSymbol VARCHAR(10),\
     underlyingExchangeSymbol VARCHAR(10),\
-    beta FLOAT,\
-    trailingAnnualDividendRate FLOAT,\
-    fromCurrency VARCHAR(10),\
     fullTimeEmployees  INT,\
     sharesShortPreviousMonthDate DATETIME,\
-    ytdReturn  FLOAT,\
-    algorithm  VARCHAR(10),\
     SandP52WeekChange  FLOAT,\
     forwardEps  FLOAT,\
     trailingAnnualDividendYield  FLOAT,\
     sharesShort  BIGINT)"
-    
     return (mysql_table_description)
     
     
@@ -213,6 +240,8 @@ def initialize_company_info_table():
 
     
 def sanitize_data(s):
+    print ("***********************************Sanitize data*******************************************")
+    print ("Data: ", s)
     
     if (isinstance(s, basestring)):
         s = s.strip()
@@ -284,6 +313,14 @@ def make_insert_into_company_info_table_string(info):
     
     table_insert_command = "INSERT INTO company_info (quoteDate, "
     for column_name in info:
+        
+        if (column_name == "ebitdaMargins"):
+            print (info)
+        
+        
+        
+        
+        
         if (column_name == "52WeekChange"):
             my_column = "the52WeekChange"
             table_insert_command = table_insert_command + my_column + ", "
@@ -331,7 +368,8 @@ def make_insert_into_company_info_table_string(info):
             
         if ( data == "nextFiscalYearEnd" or data == "lastSplitDate" or data == "dateShortInterest" or data == "lastFiscalYearEnd"\
              or data == "startDate"  or data == "exDividendDate" or data == "expireDate" or data == "fundInceptionDate"
-             or data == "sharesShortPreviousMonthDate"):
+             or data == "sharesShortPreviousMonthDate"
+             or data == "lastDividendDate"):
             
             s = "FROM_UNIXTIME(" + s + ")"
             table_insert_command = table_insert_command + str(s) + ", "
@@ -433,65 +471,6 @@ def make_insert_into_stocks_daily_table_string(info):
     return(table_insert_command)
     
    
-def make_insert_into_td_stocks_daily_table_string(info):
-    
-    needed_columns = build_tdameritrade_daily_table()
-    columns_list = needed_columns.split(",")
-    
-    table_insert_command = "INSERT INTO td_stocks_daily ("
-    line_pointer = 0
-    
-    for column_name in columns_list:
-        if (line_pointer > 0):
-            column_name = column_name.strip()
-            col = column_name.split(" ")
-            print (col[0])
-            table_insert_command = table_insert_command + col[0] + ", "
-        line_pointer = line_pointer + 1
-   
-    table_insert_command = table_insert_command[:-2] # remove the last ,
-    table_insert_command = table_insert_command + ") "
-        
-    table_insert_command = table_insert_command + "VALUES ("
-    
-    count = 0
-    for data in columns_list:
-        if (count > 0):
-            data = data.strip()
-            cols = data.split(" ")
-            col = cols[0]
-            col = col.strip()
-           
-            if ( col == "tradeTimeInLong" or col == "quoteTimeInLong" or col == "regularMarketTradeTimeInLong" or col == "divDate"):
-                s = "FROM_UNIXTIME(" + "'" + str(int(time.time())) + "'" + ")"
-                table_insert_command = table_insert_command  + str(s) + ", "
-                
-    
-                
-            else: 
-                key = sanitize_data(col)
-                try:
-                    s = sanitize_data(info[key])
-                    if (col == "description"):
-                        s = s.replace(",","")
-                        s = s.replace("'","")
-                except:
-                    s = "0.00"
-                table_insert_command = table_insert_command + "'" + str(s) +"'" + ", "
-        
-        count = count + 1
-        
-        
-    table_insert_command = table_insert_command[:-2] # remove the last ,
-    
-    table_insert_command = table_insert_command + ")"
-    
-    
-    print ("number of columns from internet = "+str(count))
-    print (table_insert_command)
-
-    return(table_insert_command)
-    
 
 def get_company_info_nasdaq_nyse_amex_stocks_unfiltered_csv():
     
@@ -542,13 +521,20 @@ def get_company_info_nasdaq_nyse_amex_stocks_unfiltered_csv():
                     insert_string = make_insert_into_company_info_table_string(info)  
                     #print (insert_string)
                 if (do_not_write == 0):
+                    """
                     try:
                         print ("Writing to Table............")
+                        #print (insert_string)
                         write_to_table(insert_string)
                         stock_counter = stock_counter + 1
                         print ("Processed "+str(stock_counter)+" stocks...")
                     except:
                         print ("Write to table blew up")
+                    """
+                    print ("Writing to Table............")
+                        #print (insert_string)
+                    write_to_table(insert_string)
+                    
                 #time.sleep(.3)   
                    
     mycsv.close()
@@ -559,3 +545,4 @@ def get_company_info_nasdaq_nyse_amex_stocks_unfiltered_csv():
 #------------------------- main -----------------------------------------------
 initialize_company_info_table()
 get_company_info_nasdaq_nyse_amex_stocks_unfiltered_csv()
+
