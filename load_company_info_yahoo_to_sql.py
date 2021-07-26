@@ -32,6 +32,7 @@ def build_yahoo_company_info_table(name):
     targetMedianPrice FLOAT,\
     currentRatio FLOAT,\
     returnOnAssets FLOAT,\
+    quoteSourceName VARCHAR(20),\
     numberOfAnalystOpinions INT,\
     targetMeanPrice FLOAT,\
     debtToEquity FLOAT,\
@@ -545,4 +546,3 @@ def get_company_info_nasdaq_nyse_amex_stocks_unfiltered_csv():
 #------------------------- main -----------------------------------------------
 initialize_company_info_table()
 get_company_info_nasdaq_nyse_amex_stocks_unfiltered_csv()
-
