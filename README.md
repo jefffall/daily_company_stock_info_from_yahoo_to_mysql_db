@@ -1,10 +1,6 @@
 
-as of July 22, 2021 - 
+as of July 26, 2021 - 
 This program will load some stocks into the db.
-But adjustments are needed as yfinance may have changed a bit and some of the data from yahoo
-has additional columns or less columns.
-
-TBD Need to put in code to fix the variable columns from finance.yahoo.com
 
 daily_company_stock_info_from_yahoo_to_mysql_db
 To use this software you need a few things configured first.
@@ -18,7 +14,6 @@ for each import statement at the top of the program you need to run pip3 install
 you might need gcc in first.
 apt-get install gcc. Or yum unstall gcc. Or on Macos install Xcode
 
-pip3 install requests
 pip3 install  pymysql
 pip3 install  yfinance
 
