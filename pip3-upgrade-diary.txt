@@ -1,0 +1,17 @@
+THIS is currently the levels WORKING with the software in this repository.
+
+root@pi1:/home/jfall# pip3 install yfinance --upgrade
+Looking in indexes: https://pypi.org/simple, https://www.piwheels.org/simple
+Requirement already up-to-date: yfinance in /usr/local/lib/python3.7/dist-packages (0.1.63)
+Requirement already satisfied, skipping upgrade: pandas>=0.24 in /usr/local/lib/python3.7/dist-packages (from yfinance) (1.1.4)
+Requirement already satisfied, skipping upgrade: numpy>=1.15 in /usr/local/lib/python3.7/dist-packages (from yfinance) (1.19.4)
+Requirement already satisfied, skipping upgrade: multitasking>=0.0.7 in /usr/local/lib/python3.7/dist-packages (from yfinance) (0.0.9)
+Requirement already satisfied, skipping upgrade: lxml>=4.5.1 in /usr/local/lib/python3.7/dist-packages (from yfinance) (4.6.1)
+Requirement already satisfied, skipping upgrade: requests>=2.20 in /usr/local/lib/python3.7/dist-packages (from yfinance) (2.24.0)
+Requirement already satisfied, skipping upgrade: pytz>=2017.2 in /usr/local/lib/python3.7/dist-packages (from pandas>=0.24->yfinance) (2020.4)
+Requirement already satisfied, skipping upgrade: python-dateutil>=2.7.3 in /usr/local/lib/python3.7/dist-packages (from pandas>=0.24->yfinance) (2.8.1)
+Requirement already satisfied, skipping upgrade: urllib3!=1.25.0,!=1.25.1,<1.26,>=1.21.1 in /usr/local/lib/python3.7/dist-packages (from requests>=2.20->yfinance) (1.25.11)
+Requirement already satisfied, skipping upgrade: certifi>=2017.4.17 in /usr/local/lib/python3.7/dist-packages (from requests>=2.20->yfinance) (2020.6.20)
+Requirement already satisfied, skipping upgrade: idna<3,>=2.5 in /usr/local/lib/python3.7/dist-packages (from requests>=2.20->yfinance) (2.10)
+Requirement already satisfied, skipping upgrade: chardet<4,>=3.0.2 in /usr/local/lib/python3.7/dist-packages (from requests>=2.20->yfinance) (3.0.4)
+Requirement already satisfied, skipping upgrade: six>=1.5 in /usr/lib/python3/dist-packages (from python-dateutil>=2.7.3->pandas>=0.24->yfinance) (1.12.0)
