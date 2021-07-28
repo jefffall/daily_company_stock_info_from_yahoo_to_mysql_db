@@ -1,4 +1,3 @@
-#!/usr/bin/python3
 import pymysql
 import yfinance as yf
 import time
@@ -64,6 +63,8 @@ def build_yahoo_company_info_table(name):
     totalDebt BIGINT,\
     totalRevenue BIGINT,\
     totalCashPerShare BIGINT,\
+    averageDailyVolume3Month BIGINT,\
+    regularMarketTime VARCHAR(20),\
     dayHigh FLOAT,\
     trailingPE FLOAT,\
     fundFamily VARCHAR(60),\
@@ -482,6 +483,8 @@ def get_company_info_nasdaq_nyse_amex_stocks_unfiltered_csv():
     
     counter = 0
     stock_counter = 0
+    sql_insert_error = 0
+    bad_symbol_list = []
     
   
     for item in mycsv:
@@ -522,20 +525,23 @@ def get_company_info_nasdaq_nyse_amex_stocks_unfiltered_csv():
                     insert_string = make_insert_into_company_info_table_string(info)  
                     #print (insert_string)
                 if (do_not_write == 0):
-                    """
+                
                     try:
                         print ("Writing to Table............")
-                        #print (insert_string)
+                        print (insert_string)
                         write_to_table(insert_string)
                         stock_counter = stock_counter + 1
+                        if sql_insert_error > 0:
+                            print ("SQL insert errors = "+str(sql_insert_error))
                         print ("Processed "+str(stock_counter)+" stocks...")
+                        if bad_symbol_list != []:
+                            print (bad_symbol_list)
                     except:
                         print ("Write to table blew up")
-                    """
-                    print ("Writing to Table............")
-                        #print (insert_string)
-                    write_to_table(insert_string)
-                    
+                        sql_insert_error = sql_insert_error + 1
+                        print ("SQL insert errors = "+str(sql_insert_error))
+                        bad_symbol_list.append(str(symbol))
+                   
                 #time.sleep(.3)   
                    
     mycsv.close()
@@ -546,3 +552,4 @@ def get_company_info_nasdaq_nyse_amex_stocks_unfiltered_csv():
 #------------------------- main -----------------------------------------------
 initialize_company_info_table()
 get_company_info_nasdaq_nyse_amex_stocks_unfiltered_csv()
+
