@@ -1,3 +1,4 @@
+#!/usr/bin/python3
 import pymysql
 import yfinance as yf
 import time
@@ -485,6 +486,8 @@ def get_company_info_nasdaq_nyse_amex_stocks_unfiltered_csv():
     stock_counter = 0
     sql_insert_error = 0
     bad_symbol_list = []
+    yfinance_choked = 0
+    yfinance_no_data = 0
     
   
     for item in mycsv:
@@ -509,10 +512,12 @@ def get_company_info_nasdaq_nyse_amex_stocks_unfiltered_csv():
                 except:
                     print ("yfinance choked on ???? for "+str(symbol))
                     do_not_write = 1
+                    yfinance_choked = yfinance_choked + 1
                 
                 if (not info):
                     print ("Yahoo returned an empty dictionary for "+str(symbol))
                     do_not_write = 1
+                    yfinance_no_data = yfinance_no_data + 1
                     #for line in info:
                     #print (str(line)+"   "+str(info[line]))
                 #except: 
@@ -545,6 +550,14 @@ def get_company_info_nasdaq_nyse_amex_stocks_unfiltered_csv():
                 #time.sleep(.3)   
                    
     mycsv.close()
+    print ("Total stocks processed into db: ", stock_counter)
+    print ("Total stocks which choked yFinance: ", yfinance_choked)
+    print ("Total stocks no data from yfinance: ",yfinance_no_data)
+    print ("Total failed inserts: ",sql_insert_error)
+    print ("stocks which failed insert:")
+    for a_stock in bad_symbol_list:
+        print (a_stock)
+    
 
 
     
@@ -552,4 +565,3 @@ def get_company_info_nasdaq_nyse_amex_stocks_unfiltered_csv():
 #------------------------- main -----------------------------------------------
 initialize_company_info_table()
 get_company_info_nasdaq_nyse_amex_stocks_unfiltered_csv()
-
