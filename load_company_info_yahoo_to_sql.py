@@ -480,8 +480,8 @@ def get_company_info_nasdaq_nyse_amex_stocks_unfiltered_csv():
     time.sleep(5)
     #File from rankandfiled.com
 
-    mycsv = open("./nyse_nasd_symbols.csv","r")
-    
+    #mycsv = open("./nyse_nasd_symbols.csv","r")
+    mycsv = open("./eoddata_nyse_nasdaq_stock_list.csv","r")    
     counter = 0
     stock_counter = 0
     sql_insert_error = 0
