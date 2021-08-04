@@ -8,6 +8,7 @@ import time
 
 import unicodedata as unicodedata
 
+started_at = datetime.datetime.now()
 
 def build_yahoo_company_info_table(name):
     #mysql_table_description = "CREATE TABLE company_info (\
@@ -376,7 +377,7 @@ def make_insert_into_company_info_table_string(info):
             
             s = "FROM_UNIXTIME(" + s + ")"
             table_insert_command = table_insert_command + str(s) + ", "
-            print (str(count)+"   "+data+"  "+str(s))
+            print (str(count)+"   "+data+"  "+str(s).strip())
             count = count + 1
            
             
@@ -405,7 +406,7 @@ def make_insert_into_company_info_table_string(info):
                 table_insert_command = table_insert_command + "'" + str(999999999.9) +"'" + ", "
             else:
                 table_insert_command = table_insert_command + "'" + str(s) +"'" + ", "
-            print (str(count)+"   "+data+"  "+str(s))
+            print (str(count)+"   "+data+"  "+str(s).strip())
             count = count + 1
         
         
@@ -413,7 +414,7 @@ def make_insert_into_company_info_table_string(info):
     
     table_insert_command = table_insert_command + ")"
     
-    print (table_insert_command)
+    print (table_insert_command.strip())
     
     print ("number of columns from internet = "+str(count))
     
@@ -469,7 +470,7 @@ def make_insert_into_stocks_daily_table_string(info):
     
     
     print ("number of columns from internet = "+str(count))
-    print (table_insert_command)
+    print (table_insert_command.strip())
 
     return(table_insert_command)
     
@@ -501,7 +502,7 @@ def get_company_info_nasdaq_nyse_amex_stocks_unfiltered_csv():
             if counter > 1:
                 print ("Stock to process below:")
                 #row_list[1] = "GCP"
-                print (symbol)
+                print (symbol.strip())
 
                 stock = (yf.Ticker(symbol))
                 print (stock)
@@ -533,7 +534,7 @@ def get_company_info_nasdaq_nyse_amex_stocks_unfiltered_csv():
                 
                     try:
                         print ("Writing to Table............")
-                        print (insert_string)
+                        print (insert_string.strip())
                         write_to_table(insert_string)
                         stock_counter = stock_counter + 1
                         if sql_insert_error > 0:
@@ -550,14 +551,14 @@ def get_company_info_nasdaq_nyse_amex_stocks_unfiltered_csv():
                 #time.sleep(.3)   
                    
     mycsv.close()
+    print ("Run started at: ",datetime.datetime.now())
     print ("Total stocks processed into db: ", stock_counter)
     print ("Total stocks which choked yFinance: ", yfinance_choked)
     print ("Total stocks no data from yfinance: ",yfinance_no_data)
     print ("Total failed inserts: ",sql_insert_error)
     print ("stocks which failed insert:")
-    for a_stock in bad_symbol_list:
-        print (a_stock)
-    
+    print (bad_symbol_list)
+    print ("Run finished at: ",datetime.datetime.now()) 
 
 
     
