@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 import pymysql
 import yfinance as yf
+import datetime
 import time
 
 #import json
