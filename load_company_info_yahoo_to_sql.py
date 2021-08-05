@@ -552,7 +552,7 @@ def get_company_info_nasdaq_nyse_amex_stocks_unfiltered_csv():
                 #time.sleep(.3)   
                    
     mycsv.close()
-    print ("Run started at: ",datetime.datetime.now())
+    print ("Run started at: ",started_at)
     print ("Total stocks processed into db: ", stock_counter)
     print ("Total stocks which choked yFinance: ", yfinance_choked)
     print ("Total stocks no data from yfinance: ",yfinance_no_data)
