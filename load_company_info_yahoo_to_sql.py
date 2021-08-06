@@ -322,17 +322,12 @@ def make_insert_into_company_info_table_string(info):
         if (column_name == "ebitdaMargins"):
             print (info)
         
-        
-        
-        
-        
         if (column_name == "52WeekChange"):
             my_column = "the52WeekChange"
             table_insert_command = table_insert_command + my_column + ", "
         elif (column_name == "err"):
             #my_column = "payoutRatio"
             pass
-
         else:
             my_column = column_name
             table_insert_command = table_insert_command + my_column + ", "
@@ -348,11 +343,6 @@ def make_insert_into_company_info_table_string(info):
         
         if (isinstance(s,dict)):
             s = "88888.888"
-            
-        
-        #if (isinstance(s, unicode)):
-        #    unicodedata.normalize('NFKD', s).encode('ascii','ignore')
-        #clean_data = re.sub(r'[^\x00-\x2050]',r'', info[data])
         elif (isinstance(s, float)):
             s = str(s)
         elif s is None:
@@ -361,10 +351,6 @@ def make_insert_into_company_info_table_string(info):
             s = str(s)
         elif (isinstance(s, list)):
             s = 'None'
-       
-        #if (isinstance(s, unicode)):
-        #    unicodedata.normalize('NFKD', s).encode('ascii','ignore')
-        #    s = s.replace(u'\u2014',u'')
             
         if (data == "longBusinessSummary"):
             s = s.replace(";",".")
@@ -384,8 +370,6 @@ def make_insert_into_company_info_table_string(info):
             
         else:  
             s = s.replace(',','')
-            #if (isinstance(s, unicode)):
-            #    unicodedata.normalize('NFKD', s).encode('ascii','ignore')
             s = s.replace(u'\x91',u'')
             s = s.replace(u'\xc3',u'')
             s = str(s.encode("utf-8"))
@@ -394,14 +378,7 @@ def make_insert_into_company_info_table_string(info):
                 s = s[1:]
             if s == "null":
                 s = "0.00"
-            #print ("UNICODE TEST: "+str(type(s)))
-            #if (isinstance(s, unicode)):
-            #    for x in range(0,len(s)):
-            #        print (ord(x))
                 
-                #unicodedata.normalize('NFKD', s).encode('ascii','ignore')
-            #exit(0)
-            #print (type(s))
             s = strip_non_ascii(s)
             if ( s == "Infinity" or s == "infinity"):
                 table_insert_command = table_insert_command + "'" + str(999999999.9) +"'" + ", "
