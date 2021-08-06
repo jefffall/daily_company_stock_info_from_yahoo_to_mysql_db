@@ -351,7 +351,6 @@ def make_insert_into_company_info_table_string(info):
             s = str(s)
         elif (isinstance(s, list)):
             s = 'None'
-            
         if (data == "longBusinessSummary"):
             s = s.replace(";",".")
             s = s.replace("'","")
@@ -366,8 +365,6 @@ def make_insert_into_company_info_table_string(info):
             table_insert_command = table_insert_command + str(s) + ", "
             print (str(count)+"   "+data+"  "+str(s).strip())
             count = count + 1
-           
-            
         else:  
             s = s.replace(',','')
             s = s.replace(u'\x91',u'')
@@ -378,7 +375,6 @@ def make_insert_into_company_info_table_string(info):
                 s = s[1:]
             if s == "null":
                 s = "0.00"
-                
             s = strip_non_ascii(s)
             if ( s == "Infinity" or s == "infinity"):
                 table_insert_command = table_insert_command + "'" + str(999999999.9) +"'" + ", "
@@ -386,17 +382,14 @@ def make_insert_into_company_info_table_string(info):
                 table_insert_command = table_insert_command + "'" + str(s) +"'" + ", "
             print (str(count)+"   "+data+"  "+str(s).strip())
             count = count + 1
-        
-        
     table_insert_command = table_insert_command[:-2] # remove the last ,
-    
     table_insert_command = table_insert_command + ")"
-    
     print (table_insert_command.strip())
-    
     print ("number of columns from internet = "+str(count))
-    
-    return(table_insert_command)
+    return count, table_insert_command
+
+
+
 
 def make_insert_into_stocks_daily_table_string(info):
     
@@ -463,8 +456,10 @@ def get_company_info_nasdaq_nyse_amex_stocks_unfiltered_csv():
     mycsv = open("./eoddata_nyse_nasdaq_stock_list.csv","r")    
     counter = 0
     stock_counter = 0
+    short_row_count = 0
     sql_insert_error = 0
     bad_symbol_list = []
+    short_row_list = []
     yfinance_choked = 0
     yfinance_no_data = 0
     
@@ -506,7 +501,10 @@ def get_company_info_nasdaq_nyse_amex_stocks_unfiltered_csv():
                 
                 if (do_not_write == 0): 
                  
-                    insert_string = make_insert_into_company_info_table_string(info)  
+                    rows_from_yahoo, insert_string = make_insert_into_company_info_table_string(info)  
+                    if rows_from_yahoo < 150:
+                        short_row_list.append(str(symbol))
+                        short_row_count = short_row_count + 1
                     #print (insert_string)
                 if (do_not_write == 0):
                 
@@ -536,6 +534,8 @@ def get_company_info_nasdaq_nyse_amex_stocks_unfiltered_csv():
     print ("Total failed inserts: ",sql_insert_error)
     print ("stocks which failed insert:")
     print (bad_symbol_list)
+    print ("Yahoo returned short rows count of ",short_row_count," for these symbols: ")
+    print (short_row_list) 
     print ("Run finished at: ",datetime.datetime.now()) 
 
 
