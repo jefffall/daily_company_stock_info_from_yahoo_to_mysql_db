@@ -453,7 +453,7 @@ def get_company_info_nasdaq_nyse_amex_stocks_unfiltered_csv():
     #File from rankandfiled.com
 
     #mycsv = open("./nyse_nasd_symbols.csv","r")
-    mycsv = open("./eoddata_nyse_nasdaq_stock_list.csv","r")    
+    mycsv = open("./eoddata_nyse_nasdaq_stock_list_cleaned.csv","r")    
     counter = 0
     stock_counter = 0
     short_row_count = 0
@@ -502,7 +502,7 @@ def get_company_info_nasdaq_nyse_amex_stocks_unfiltered_csv():
                 if (do_not_write == 0): 
                  
                     rows_from_yahoo, insert_string = make_insert_into_company_info_table_string(info)  
-                    if rows_from_yahoo < 150:
+                    if rows_from_yahoo < 140:
                         short_row_list.append(str(symbol))
                         short_row_count = short_row_count + 1
                     #print (insert_string)
