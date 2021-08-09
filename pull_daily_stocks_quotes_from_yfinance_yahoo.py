@@ -3,6 +3,7 @@ import yfinance as yf
 import time
 import datetime
 import pymysql
+import RestartStocksRising as restart
 
 started_at = str(datetime.datetime.now())
 
@@ -82,3 +83,5 @@ def read_stocks_from_csv_download_via_yfinance_to_mysql():
     
 read_stocks_from_csv_download_via_yfinance_to_mysql()
 
+time.sleep(20)
+restart.restart_stocks_rising()
