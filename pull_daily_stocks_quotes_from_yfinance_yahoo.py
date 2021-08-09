@@ -60,15 +60,15 @@ def read_stocks_from_csv_download_via_yfinance_to_mysql():
             print (date, myopen,high, low, close, adjclose, volume)
             time.sleep (1)
             columns = "INSERT INTO stocks (symbol, date, exchange, open, low, high, close, volume) "+\
-                           "VALUES ('"+symbol+"' ,"+date+" ,'"+"NYSEorNASD"+"', "+myopen+", "+high+" ,"+low+", "+close+", "+volume+")"
+                           "VALUES ('"+symbol.strip()+"' ,"+date+" ,'"+"NYSEorNASD"+"', "+myopen+", "+high+" ,"+low+", "+close+", "+volume+")"
             lines_processed = lines_processed + 1
-            print ("Processed: "+symbol+" "+str(lines_processed)+" stocks processed...")
+            print ("Processed: "+symbol.strip()+" "+str(lines_processed)+" stocks processed...")
             yfinance_list.append(columns)
             time.sleep(1)
         else:
             bad_symbol_or_bad_date = bad_symbol_or_bad_date + 1
             mydata = None
-            print ("bad symbol: "+symbol+" or date: start="+str(start)+" end="+str(end))
+            print ("bad symbol: "+symbol.strip()+" or date: start="+str(start)+" end="+str(end))
             time.sleep(1)
     print (str(len(yfinance_list))+" symbols downloaded. Writing to mysql database now...")
     print (" ")
