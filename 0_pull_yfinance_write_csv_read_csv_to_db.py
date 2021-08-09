@@ -4,9 +4,9 @@ import yfinance as yf
 import datetime
 import time
 #from local directory
-import TwoDailyYfinanceCompanyInfoToCSV as tocsv
-import ThreeLoadYfinanceStocksFromCSVToMySQLTable as fromcsv
-import RestartStocksRising as restart
+#import TwoDailyYfinanceCompanyInfoToCSV as tocsv
+#import ThreeLoadYfinanceStocksFromCSVToMySQLTable as fromcsv
+#import RestartStocksRising as restart
 #import json
 # -*- coding: utf-8 -*-
 
@@ -550,7 +550,7 @@ get_company_info_nasdaq_nyse_amex_stocks_unfiltered_csv()
 
 # from imports in this same directory
 
-tocsv.create_daily_stock_data_csv()
-fromcsv.process_yfinance_csv()
-time.sleep(20)
-restart.restart_stocks_rising()
+#tocsv.create_daily_stock_data_csv()
+#fromcsv.process_yfinance_csv()
+#time.sleep(20)
+#restart.restart_stocks_rising()
