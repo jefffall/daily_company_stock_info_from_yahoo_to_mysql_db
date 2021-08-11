@@ -39,10 +39,10 @@ def read_stocks_from_csv_download_via_yfinance_to_mysql():
         except:
             bad_symbol_or_bad_date = bad_symbol_or_bad_date + 1
             print ("bad symbol: "+symbol.strip()+" or date: start="+str(today_date),flush=True)
-            time.sleep(1)
+            time.sleep(.5)
             skip = True
         if skip == False:
-            time.sleep (1)
+            time.sleep (.5)
             columns = "INSERT INTO stocks (symbol, date, exchange, open, low, high, close, volume) "+\
                             "VALUES ('"+symbol.strip()+"' ,'"+today_date+" 15:00:00'"+" ,'"+"NYSEorNASD"+"', "+myopen+", "+high+" ,"+low+", "+close+", "+volume+")"
             lines_processed = lines_processed + 1
@@ -52,7 +52,7 @@ def read_stocks_from_csv_download_via_yfinance_to_mysql():
         
     print (str(len(yfinance_list))+" symbols downloaded. Writing to mysql database now...",flush=True)
     print (" ",flush=True)
-    write_to_eoddata_table(yfinance_list,flush=True)
+    write_to_eoddata_table(yfinance_list)
     mycsv.close()
     print (" ",flush=True)
     print ("Run started at "+str(started_at),flush=True)
@@ -63,5 +63,5 @@ def read_stocks_from_csv_download_via_yfinance_to_mysql():
 
 read_stocks_from_csv_download_via_yfinance_to_mysql()
 
-time.sleep(20)
+time.sleep(60)
 restart.restart_stocks_rising()
