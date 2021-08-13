@@ -46,6 +46,7 @@ def read_stocks_from_csv_download_via_yfinance_to_mysql():
                 high =  str(round(float(todayData['High'][0]),2))
                 close =  str(round(float(todayData['Close'][0]),2))
                 volume =  str(todayData['Volume'][0])
+                exchange = "NYSE/NASD"
                 skip = False
             except:
                 bad_symbol_or_bad_date = bad_symbol_or_bad_date + 1
@@ -56,7 +57,7 @@ def read_stocks_from_csv_download_via_yfinance_to_mysql():
             if skip == False:
                 time.sleep (.5)
                 columns = "INSERT INTO stocks (symbol, date, exchange, open, low, high, close, volume) "+\
-                        "VALUES ('"+symbol.strip()+"' ,'"+today_date+" 15:00:00'"+" ,'"+"NYSEorNASD"+"', "+myopen+", "+high+" ,"+low+", "+close+", "+volume+")"
+                        "VALUES ('"+symbol.strip()+"' ,'"+today_date+" 15:00:00'"+" ,'"+exchange+"', "+myopen+", "+high+" ,"+low+", "+close+", "+volume+")"
                 lines_processed = lines_processed + 1
                 print ("Processed: "+symbol.strip()+" --> "+str(lines_processed)+" stocks processed...",flush=True)
                 print ("Date:"+str(today_date)+" Open:"+str(myopen)+" Low:"+str(low)+" High:"+str(high)+" Close:"+str(close)+" Volume:"+str(volume),flush=True)
